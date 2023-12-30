@@ -8,6 +8,9 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const TAB_DECIDER = _Paths.TAB_DECIDER;
   static const PROFILE = _Paths.PROFILE;
+  static const DETAIL = _Paths.DETAIL;
+  static const DOCUMENTATION = _Paths.DOCUMENTATION;
+  static const LIST_MATERIAL = _Paths.LIST_MATERIAL;
 }
 
 abstract class _Paths {
@@ -17,4 +20,7 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const TAB_DECIDER = '/tab-decider';
   static const PROFILE = '/profile';
+  static const DETAIL = '/detail';
+  static const DOCUMENTATION = '/documentation';
+  static const LIST_MATERIAL = '/list-material';
 }

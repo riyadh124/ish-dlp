@@ -1,7 +1,13 @@
 import 'package:get/get.dart';
 
+import '../modules/detail/bindings/detail_binding.dart';
+import '../modules/detail/views/detail_view.dart';
+import '../modules/documentation/bindings/documentation_binding.dart';
+import '../modules/documentation/views/documentation_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/listMaterial/bindings/list_material_binding.dart';
+import '../modules/listMaterial/views/list_material_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -43,6 +49,21 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL,
+      page: () => DetailView(),
+      binding: DetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.DOCUMENTATION,
+      page: () => const DocumentationView(),
+      binding: DocumentationBinding(),
+    ),
+    GetPage(
+      name: _Paths.LIST_MATERIAL,
+      page: () => const ListMaterialView(),
+      binding: ListMaterialBinding(),
     ),
   ];
 }

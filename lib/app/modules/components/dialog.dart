@@ -9,8 +9,8 @@ void confirmMessage(context, title, description, VoidCallback action) {
       return SimpleBoxDialog(
         title: title,
         subtitle: description,
-        buttonText: 'Konfirmasi',
-        secondaryButtonText: 'Batal',
+        buttonText: 'Confirm',
+        secondaryButtonText: 'Cancel',
         onTapSecondary: () {
           Get.back();
         },

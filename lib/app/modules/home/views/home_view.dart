@@ -1,3 +1,4 @@
+import 'package:dlp/app/modules/detail/views/detail_view.dart';
 import 'package:dlp/app/modules/env/color.dart';
 import 'package:flutter/material.dart';
 
@@ -121,75 +122,80 @@ class HomeView extends GetView<HomeController> {
               itemCount: 3,
               padding: EdgeInsets.all(10),
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  margin: EdgeInsets.all(5),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Color(0xFFE3E5EB)),
-                  ),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: green,
-                        maxRadius: 15,
-                        child: Icon(
-                          Icons.done,
-                          color: Colors.white,
-                          size: 20,
+                return InkWell(
+                  onTap: () => Get.to(DetailView()),
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width,
+                    margin: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Color(0xFFE3E5EB)),
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: green,
+                          maxRadius: 15,
+                          child: Icon(
+                            Icons.done,
+                            color: Colors.white,
+                            size: 20,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "GT2023001",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                ),
-                                Spacer(),
-                                Text(
-                                  "8 / 12 / 2023",
-                                  style: TextStyle(fontSize: 14),
-                                )
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                SizedBox(
-                                    width:
-                                        MediaQuery.sizeOf(context).width / 2 -
-                                            40,
-                                    child: Text(
-                                      "Distribusi - Regional VI, Wilayah ABC",
-                                      style: TextStyle(fontSize: 14),
-                                    )),
-                                Text(
-                                  "Done",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: green,
-                                      fontSize: 14),
-                                )
-                              ],
-                            )
-                          ],
+                        SizedBox(
+                          width: 10,
                         ),
-                      )
-                    ],
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "GT2023001",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                  Spacer(),
+                                  Text(
+                                    "8 / 12 / 2023",
+                                    style: TextStyle(fontSize: 14),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(
+                                      width:
+                                          MediaQuery.sizeOf(context).width / 2 -
+                                              40,
+                                      child: Text(
+                                        "Distribusi - Regional VI, Wilayah ABC",
+                                        style: TextStyle(fontSize: 14),
+                                      )),
+                                  Text(
+                                    "Done",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: green,
+                                        fontSize: 14),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 );
               },

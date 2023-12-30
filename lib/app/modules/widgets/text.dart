@@ -14,7 +14,7 @@ class CText extends StatelessWidget {
       {Key? key,
       this.color = const Color(0xff222222),
       this.fontSize = 14,
-      this.fontWeight = FontWeight.normal,
+      this.fontWeight = FontWeight.bold,
       this.textAlign = TextAlign.start,
       this.maxLines,
       this.overflow})
