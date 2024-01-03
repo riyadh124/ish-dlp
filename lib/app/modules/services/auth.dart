@@ -1,12 +1,44 @@
-import 'dart:convert';
-
+import 'package:dlp/app/modules/components/dialog.dart';
+import 'package:dlp/app/modules/components/loading.dart';
+import 'package:dlp/app/modules/env/global_var.dart';
 import 'package:dlp/app/modules/tabDecider/views/tab_decider_view.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/connect.dart';
 import 'package:get_storage/get_storage.dart';
 
 class AuthService extends GetConnect {
   GetStorage box = GetStorage();
+
+  void login(context, email, password) async {
+    if (email != '' && password != '') {
+      onLoading(context);
+      print("email : ${email}, password: ${password}");
+
+      try {
+        final response = await post('$urlApi/api/auth/login', {
+          'email': email,
+          'password': password,
+        });
+
+        print("data response : ${response.body}");
+
+        var data = response.body;
+
+        if (data['message'] == 'User Logged In Successfully') {
+          onLoadingDismiss(context);
+          box.write('user', data['data']);
+          box.write('token', data['token']);
+          Get.offAll(TabDeciderView());
+          successMessage(context, data['message']);
+        } else {
+          onLoadingDismiss(context);
+          errorMessage(data['message']);
+        }
+      } catch (e) {
+        onLoadingDismiss(context);
+        errorMessage(e);
+      }
+    }
+  }
 
   // void register(context) async {
   //   RegisterController registerController = Get.put(RegisterController());
@@ -111,44 +143,4 @@ class AuthService extends GetConnect {
   //     errorMessage("Password Tidak Sama");
   //   }
   // }
-
-  void login(context, telepon, password) async {
-    Get.offAll(TabDeciderView());
-    // if (telepon != '' && password != '') {
-    //   onLoading(context);
-
-    //   try {
-    //     String? fcm_token = await FirebaseMessaging.instance.getToken();
-
-    //     print("token fcm : $fcm_token");
-    //     print("telepon : ${telepon}, password: ${password}");
-
-    //     final response = await post('$urlApi/user/login', {
-    //       'number': telepon,
-    //       'password': password,
-    //       'device_token': fcm_token,
-    //     });
-
-    //     var data = response.body;
-    //     print("data login  : $data");
-
-    //     if (data['message'] == 'Login Success') {
-    //       onLoadingDismiss(context);
-    //       box.write('user', data['auth']);
-    //       if (data['auth']["level"] != "USER") {
-    //         Get.offAll(TabDeciderView());
-    //       } else {
-    //         Get.offAll(HomeView());
-    //       }
-    //       successMessage(context, data['message']);
-    //     } else {
-    //       onLoadingDismiss(context);
-    //       errorMessage(data['message']);
-    //     }
-    //   } catch (e) {
-    //     onLoadingDismiss(context);
-    //     errorMessage(e);
-    //   }
-    // }
-  }
 }

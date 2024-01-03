@@ -7,6 +7,7 @@ class DetailController extends GetxController {
   //TODO: Implement DetailController
   final box = GetStorage();
   final TextEditingController textController = TextEditingController();
+  var argumentData = Get.arguments;
 
   List photosBeforeRepair = [];
   List photosAfterRepair = [];
@@ -14,33 +15,70 @@ class DetailController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    photosBeforeRepair = box.read('photosBeforeRepair') ?? [];
-    photosAfterRepair = box.read('photosAfterRepair') ?? [];
-    loadMaterials();
-    loadNotes();
-
-    print("photosBeforeRepair : ${box.read('photosBeforeRepair')}");
-    print("Materials : ${box.read('materials')}");
-
-    materialCount = Map<String, int>.from(box.read('materialCount') ?? {});
-    materialImages = Map<String, String>.from(box.read('materialImages') ?? {});
-
-    print("Materials Count : ${materialCount}");
-    print("Materials Image : ${materialImages}");
-
-    print("photosAfterRepair : ${box.read('photosAfterRepair')}");
-    print("Notes : ${box.read('notes')}");
+    retrieveDetailInformation();
   }
 
-  void loadNotes() {
-    String savedNotes = box.read('notes') ?? '';
-    textController.text = savedNotes;
+  void saveDetailInformation(String detailId) {
+    var detailInformation = {
+      'photosBeforeRepair': photosBeforeRepair,
+      'materials': materials,
+      "materialCount": materialCount,
+      "materialImages": materialImages,
+      "materialId": materialId,
+      "photosAfterRepair": photosAfterRepair,
+      "notes": textController.text,
+    };
+
+    box.write(detailId, detailInformation);
+  }
+
+  setWorkordersData(data) {
+    argumentData = data;
     update();
+  }
+
+  var listMaterials = [].obs;
+  // Fungsi untuk mengambil data dari server
+  void setlistMaterialData(data) async {
+    listMaterials.assignAll(data);
+    update();
+  }
+
+  getDetailInformation(String detailId) {
+    // Mengambil informasi detail berdasarkan ID dari GetStorage
+    return box.read(detailId);
+  }
+
+  // Contoh pemanggilan untuk mendapatkan informasi detail dengan ID tertentu
+  void retrieveDetailInformation() {
+    String detailId = argumentData["id"].toString();
+    var detailInformation = getDetailInformation(detailId);
+
+    print('Informasi Detail: $detailInformation');
+    if (detailInformation != null) {
+      photosBeforeRepair = detailInformation['photosBeforeRepair'] ?? [];
+      photosAfterRepair = detailInformation['photosAfterRepair'] ?? [];
+      materials = detailInformation['materials'] ?? [];
+      materialCount =
+          Map<String, int>.from(detailInformation['materialCount'] ?? {});
+      materialImages =
+          Map<String, String>.from(detailInformation['materialImages'] ?? {});
+      materialId = Map<String, int>.from(detailInformation['materialId'] ?? {});
+      textController.text = detailInformation['notes'] ?? '';
+    } else {
+      print('Detail dengan ID $detailId tidak ditemukan.');
+    }
+  }
+
+  String formatDate(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String formattedDate = '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    return formattedDate;
   }
 
   void saveNotes() {
     String notes = textController.text;
-    box.write('notes', notes);
+    saveDetailInformation(argumentData["id"].toString());
     update();
   }
 
@@ -50,42 +88,38 @@ class DetailController extends GetxController {
     update();
   }
 
-  void loadMaterials() {
-    materials = box.read('materials') ?? [];
-    materialCount = Map<String, int>.from(box.read('materialCount') ?? {});
-    materialImages = Map<String, String>.from(box.read('materialImages') ?? {});
-  }
-
   void addPhoto(String listName, List photos, String photoPath) {
     photos.add(photoPath);
-    box.write('$listName', photos);
+    saveDetailInformation(argumentData["id"].toString());
     update();
   }
 
   void removePhoto(String listName, List photos, int index) {
     photos.removeAt(index);
-    box.write('$listName', photos);
+    saveDetailInformation(argumentData["id"].toString());
     update();
   }
 
   List materials = [];
+  Map<String, int> materialId = {};
   Map<String, int> materialCount = {};
   Map<String, String> materialImages = {};
 
-  Future<void> addMaterial(String selectedMaterial, int count) async {
+  Future<void> addMaterial(selectedMaterial, int count) async {
     if (selectedMaterial != null) {
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
+      String materialName = selectedMaterial["nama"];
       if (pickedFile != null) {
         String imagePath = pickedFile.path;
-        materialImages[selectedMaterial] = imagePath;
-        materialCount[selectedMaterial] ??= 0;
-        materialCount[selectedMaterial] =
-            (materialCount[selectedMaterial] ?? 0) + count;
+        materialId[materialName] = selectedMaterial["id"];
+        materialImages[materialName] = imagePath;
+        materialCount[materialName] ??= 0;
+        materialCount[materialName] =
+            (materialCount[materialName] ?? 0) + count;
 
-        if (!materials.contains(selectedMaterial)) {
-          materials.add(selectedMaterial);
+        if (!materials.contains(materialName)) {
+          materials.add(materialName);
         }
 
         saveMaterials();
@@ -96,15 +130,13 @@ class DetailController extends GetxController {
   void deleteMaterial(String material) {
     materials.remove(material);
     materialCount.remove(material);
+    materialId.remove(material);
     materialImages.remove(material);
     saveMaterials();
   }
 
   void saveMaterials() {
-    box.write('materials', materials);
-    box.write('materialCount', materialCount);
-    box.write('materialImages', materialImages);
-
+    saveDetailInformation(argumentData["id"].toString());
     update();
   }
 

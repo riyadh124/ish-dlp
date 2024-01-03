@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 class LoginController extends GetxController {
   //TODO: Implement LoginController
 
-  TextEditingController telepon = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool obscureText = true;
   GetStorage box = GetStorage();
@@ -20,7 +20,7 @@ class LoginController extends GetxController {
 
   @override
   void onInit() {
-    telepon = TextEditingController();
+    email = TextEditingController();
     password = TextEditingController();
     Future.delayed(const Duration(milliseconds: 500), () {
       if (box.read("user") != null) {

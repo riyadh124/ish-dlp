@@ -59,17 +59,17 @@ class LoginView extends GetView<LoginController> {
                             }
                             return null;
                           },
-                          controller: c.telepon,
+                          controller: c.email,
                           onChanged: (value) {
-                            c.telepon.text = value;
-                            print(c.telepon.text);
+                            c.email.text = value;
+                            print(c.email.text);
                           },
-                          keyboardType: TextInputType.phone,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            hintText: 'Nomor Telepon',
-                            prefixIcon: const Icon(Icons.call),
+                            hintText: 'Email',
+                            prefixIcon: const Icon(Icons.email),
                           ),
                         ),
                         const SizedBox(
@@ -111,8 +111,9 @@ class LoginView extends GetView<LoginController> {
                             onTap: () {
                               if (loginController.loginFormKey.currentState!
                                   .validate()) {
+                                // ActivityService().getData();
                                 authService.login(
-                                    context, c.telepon.text, c.password.text);
+                                    context, c.email.text, c.password.text);
                               }
                             }),
                         const SizedBox(

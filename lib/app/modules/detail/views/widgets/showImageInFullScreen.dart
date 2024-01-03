@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dlp/app/modules/env/global_var.dart';
 import 'package:flutter/material.dart';
 
 void showImageInFullScreen(BuildContext context, String imagePath) {
@@ -17,8 +18,8 @@ void showImageInFullScreen(BuildContext context, String imagePath) {
             child: Center(
               child: Hero(
                 tag: imagePath,
-                child: Image.file(
-                  File(imagePath),
+                child: Image.network(
+                  "${urlApi}/storage/${imagePath}",
                   fit: BoxFit.contain,
                 ),
               ),

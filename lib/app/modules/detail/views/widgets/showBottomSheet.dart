@@ -1,12 +1,13 @@
 import 'package:dlp/app/modules/detail/controllers/detail_controller.dart';
+import 'package:dlp/app/modules/services/workorder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void showAddMaterialBottomSheet(
   BuildContext context,
-  Function(String, int) addMaterial,
+  Function addMaterial,
 ) {
-  String? selectedMaterial;
+  var selectedMaterial;
   int count = 0;
 
   showModalBottomSheet(
@@ -23,25 +24,29 @@ void showAddMaterialBottomSheet(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  DropdownButton<String>(
-                    value: selectedMaterial,
-                    hint: Text('Select Material'),
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedMaterial = newValue;
-                      });
+                  GetBuilder<DetailController>(
+                    initState: (state) {
+                      WorkorderService().getListMaterial();
                     },
-                    items: <String>[
-                      'Material 1',
-                      'Material 2',
-                      'Material 3',
-                      // Add your materials here
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
+                    builder: (controller) {
+                      return DropdownButton(
+                        value: selectedMaterial,
+                        hint: Text('Select Material'),
+                        onChanged: (newValue) {
+                          selectedMaterial = newValue;
+                          controller.update();
+                          // Lakukan sesuatu ketika nilai dropdown berubah
+                        },
+                        items: controller.listMaterials.map<DropdownMenuItem>(
+                          (value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value["nama"]),
+                            );
+                          },
+                        ).toList(),
                       );
-                    }).toList(),
+                    },
                   ),
                   SizedBox(height: 10),
                   TextField(

@@ -2,6 +2,7 @@ import 'package:dlp/app/modules/env/color.dart';
 import 'package:dlp/app/modules/home/views/home_view.dart';
 import 'package:dlp/app/modules/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 
@@ -65,14 +66,13 @@ class TabDeciderView extends GetView<TabDeciderController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       bottomNavigationBar:
           buildBottomNavigationMenu(context, tabDeciderController),
       body: Obx(() => IndexedStack(
             index: tabDeciderController.tabIndex.value,
             children: [HomeView(), ProfileView()],
           )),
-    ));
+    );
   }
 }

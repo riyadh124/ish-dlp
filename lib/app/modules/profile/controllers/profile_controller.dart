@@ -1,9 +1,17 @@
+import 'package:dlp/app/modules/login/views/login_view.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ProfileController extends GetxController {
   //TODO: Implement ProfileController
+  var box = GetStorage();
 
-  final count = 0.obs;
+  logout() {
+    box.remove("user");
+    box.remove("token");
+    Get.offAll(LoginView());
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -18,6 +26,4 @@ class ProfileController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

@@ -22,7 +22,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.TAB_DECIDER;
+  static const INITIAL = Routes.SPLASHSCREEN;
 
   static final routes = [
     GetPage(
@@ -47,7 +47,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => const ProfileView(),
+      page: () => ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(
