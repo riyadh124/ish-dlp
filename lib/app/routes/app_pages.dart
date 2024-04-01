@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/dashboard/bindings/dashboard_binding.dart';
+import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/detail/bindings/detail_binding.dart';
 import '../modules/detail/views/detail_view.dart';
 import '../modules/documentation/bindings/documentation_binding.dart';
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.LIST_MATERIAL,
       page: () => const ListMaterialView(),
       binding: ListMaterialBinding(),
+    ),
+    GetPage(
+      name: _Paths.DASHBOARD,
+      page: () => const DashboardView(),
+      binding: DashboardBinding(),
     ),
   ];
 }
